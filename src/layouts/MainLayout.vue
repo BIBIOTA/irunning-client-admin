@@ -23,7 +23,9 @@
           text-color="primary"
           round
           icon="logout"
-          size="12px" />
+          size="12px"
+          v-if="drawerShow"
+        />
 
       </q-toolbar>
     </q-header>
@@ -104,7 +106,7 @@ const linksList = [
 ];
 
 import { defineComponent, ref } from 'vue'
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -126,12 +128,13 @@ export default defineComponent({
   },
 
   methods: {
-     ...mapMutations([
-      'setLogout',
+    ...mapActions([
+      'logoutAction',
     ]),
     logout() {
-      this.setLogout();
-      this.$router.push('/');
+      this.logoutAction().then(() => {
+        this.$router.push('/');
+      });
     },
   },
 

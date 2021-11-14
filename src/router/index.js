@@ -1,3 +1,4 @@
+import { Cookies } from 'quasar'
 import { route } from 'quasar/wrappers'
 import { createRouter, createMemoryHistory, createWebHistory, createWebHashHistory } from 'vue-router'
 import routes from './routes'
@@ -26,5 +27,12 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE)
   })
 
+  Router.beforeEach((to) => {
+    if (to.fullPath !== '/' && !Cookies.get('token')) {
+      return { name: 'login' };
+    }
+  });
+
   return Router
+
 })

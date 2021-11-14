@@ -44,4 +44,23 @@ export const auth = {
         };
       });
   },
+
+  /**
+   * 登出
+   */
+   logout() {
+    const url = '/logout';
+    return request(this.fullUrl(url), null, 'post')
+      .then((res) => {
+        if (res.status) {
+          return res.data;
+        }
+        return res.data;
+      }).catch((err) => {
+        return {
+          message: err,
+          status: false,
+        };
+      });
+  },
 };

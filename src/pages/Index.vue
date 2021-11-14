@@ -1,6 +1,5 @@
 <template>
-  <q-page>
-    123333
+  <q-page class="flex flex-center">
   </q-page>
 </template>
 
@@ -15,8 +14,6 @@ export default defineComponent({
   },
   methods: {
   },
-  created() {
-    console.log(this.$route);
-  }
+  created() {}
 })
 </script>
