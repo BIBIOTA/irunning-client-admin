@@ -13,8 +13,17 @@
         />
 
         <q-toolbar-title>
-          Irunning
+          I Running
         </q-toolbar-title>
+
+        <q-btn
+          @click="logout"
+          push
+          color="white"
+          text-color="primary"
+          round
+          icon="logout"
+          size="12px" />
 
       </q-toolbar>
     </q-header>
@@ -95,6 +104,7 @@ const linksList = [
 ];
 
 import { defineComponent, ref } from 'vue'
+import { mapState, mapMutations } from 'vuex';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -109,11 +119,32 @@ export default defineComponent({
     return {
       essentialLinks: linksList,
       leftDrawerOpen,
-      drawerShow: false,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
       }
     }
-  }
+  },
+
+  methods: {
+     ...mapMutations([
+      'setLogout',
+    ]),
+    logout() {
+      this.setLogout();
+      this.$router.push('/');
+    },
+  },
+
+  computed: {
+    ...mapState([
+      'token',
+    ]),
+    drawerShow() {
+      if (this.token) {
+        return true;
+      }
+      return false;
+    },
+  },
 })
 </script>

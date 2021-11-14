@@ -25,4 +25,23 @@ export const auth = {
         };
       });
   },
+
+  /**
+   * 確認登入狀態
+   */
+   me() {
+    const url = '/me';
+    return request(this.fullUrl(url), null, 'post')
+      .then((res) => {
+        if (res.status) {
+          return res.data;
+        }
+        return res.data;
+      }).catch((err) => {
+        return {
+          message: err,
+          status: false,
+        };
+      });
+  },
 };

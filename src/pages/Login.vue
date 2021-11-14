@@ -17,6 +17,7 @@ import { defineComponent, ref } from 'vue';
 import { auth } from '../libs/auth.js';
 import { checkMail } from 'src/const/validator.js';
 import { notify } from 'src/const/notify.js';
+import { mapState, mapMutations } from 'vuex';
 
 export default defineComponent({
   name: 'Login',
@@ -28,6 +29,9 @@ export default defineComponent({
     }
   },
   methods: {
+    ...mapMutations([
+      'setToken',
+    ]),
     checkMail,
     login() {
       this.$refs.loginForm.validate().then(success => {
@@ -38,7 +42,12 @@ export default defineComponent({
           }          
           auth.login(form).then((res) => {
             if (res.status) {
+              const { access_token, expires_in } = res;
+              this.setToken({ access_token, expires_in });
               notify('登入成功', true);
+              this.$router.push({
+                name: 'home',
+              });
             } else {
               notify('登入失敗，請確認email和密碼是否正確', false);
             }
@@ -48,6 +57,18 @@ export default defineComponent({
         }
       })
     },
+  },
+  computed: {
+    ...mapState([
+      'token',
+    ]),
+  },
+  created() {
+    if (this.token) {
+      this.$router.push({
+        name: 'home',
+      });
+    }
   },
 })
 </script>

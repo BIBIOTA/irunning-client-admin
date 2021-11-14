@@ -1,5 +1,6 @@
 import axios from 'axios';
 import qs from 'qs';
+import { Cookies } from 'quasar';
 
 let API_URL;
 if (process.env.DEV) {
@@ -8,7 +9,7 @@ if (process.env.DEV) {
   API_URL = 'https://irunningapi.bibiota.com/api';
 }
 
-let AUTH_TOKEN = null;
+let AUTH_TOKEN = Cookies.get('token') ?? null;
 
 // 封裝
 export function request(url, data = false, method = 'get', token = AUTH_TOKEN, headers = {}) {
