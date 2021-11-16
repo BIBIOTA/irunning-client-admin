@@ -14,7 +14,13 @@ const routes = [
       { path: '/home', name: 'home', component: () => import('src/pages/Index.vue') },
     ]
   },
-
+  {
+    path: '/users',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '/users', name: 'users', meta: { title: '權限管理' },component: () => import('src/pages/users/Users.vue') },
+    ]
+  },
   // Always leave this as last one,
   // but you can also remove it
   {
