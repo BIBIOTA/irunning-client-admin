@@ -21,6 +21,13 @@ const routes = [
       { path: '/users', name: 'users', meta: { title: '權限管理' },component: () => import('src/pages/users/Users.vue') },
     ]
   },
+  {
+    path: '/members',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '/members', name: 'members', meta: { title: '會員管理' },component: () => import('src/pages/members/Members.vue') },
+    ]
+  },
   // Always leave this as last one,
   // but you can also remove it
   {
