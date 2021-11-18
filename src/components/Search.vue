@@ -5,6 +5,13 @@
         <q-input v-if="col.type === 'input'" outlined v-model="col.value" label="搜尋會員(會員名稱)" dense />
         <q-btn v-if="col.type === 'btn'" color="primary" label="查詢" />
       </div>
+      <q-space />
+      <q-btn
+        v-if="add"
+        color="primary"
+        label="新增"
+        :to="`${$route.path}/add`"
+      />
     </div>
   </div>
 </template>
@@ -16,6 +23,7 @@ export default defineComponent({
 
   props: {
     initialSearchForm: Array,
+    add: Boolean,
   },
 
   data() {
