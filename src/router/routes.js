@@ -28,6 +28,13 @@ const routes = [
       { path: '/members', name: 'members', meta: { title: '會員管理' },component: () => import('src/pages/members/Members.vue') },
     ]
   },
+  {
+    path: '/members/view/:uuid',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '/members/view/:uuid', name: 'membersView', meta: { title: '會員管理 | 檢視' },component: () => import('src/pages/members/MembersView.vue') },
+    ]
+  },
   // Always leave this as last one,
   // but you can also remove it
   {

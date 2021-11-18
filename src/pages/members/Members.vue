@@ -77,7 +77,7 @@ export default defineComponent({
           lastLoginAt: '2021-11-01 21:22:22',
           edit: {
             remove: true,
-            edit: true,
+            view: true,
             uuid: '1',
           },
         },
@@ -90,7 +90,7 @@ export default defineComponent({
           lastLoginAt: '2021-11-01 21:22:22',
           edit: {
             remove: true,
-            edit: true,
+            view: true,
             uuid: '2',
           },
         },
