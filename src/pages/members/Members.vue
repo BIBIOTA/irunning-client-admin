@@ -76,7 +76,6 @@ export default defineComponent({
           runnerType: '初階跑者',
           lastLoginAt: '2021-11-01 21:22:22',
           edit: {
-            remove: true,
             view: true,
             uuid: '1',
           },
@@ -89,7 +88,6 @@ export default defineComponent({
           runnerType: '初階跑者',
           lastLoginAt: '2021-11-01 21:22:22',
           edit: {
-            remove: true,
             view: true,
             uuid: '2',
           },
