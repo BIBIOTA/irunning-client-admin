@@ -18,6 +18,21 @@
             />
           </q-item-label>
 
+          <q-item-label v-else-if="key === 'customBtns'"  class="text-center">
+            <div class="text-grey-8 q-gutter-xs">
+              <q-btn
+                v-if="row.customBtns.view"
+                class="gt-xs"
+                size="12px"
+                flat
+                dense
+                round
+                icon="visibility"
+                @click="$emit('customAction', 'clickView', row.customBtns)"
+              />
+            </div>
+          </q-item-label>
+
           <q-item-label v-else-if="key === 'edit'"  class="text-center">
             <div class="text-grey-8 q-gutter-xs">
               <q-btn
