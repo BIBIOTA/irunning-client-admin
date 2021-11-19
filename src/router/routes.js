@@ -35,6 +35,13 @@ const routes = [
       { path: '/members/view/:uuid', name: 'membersView', meta: { title: '會員管理 | 檢視' },component: () => import('src/pages/members/MembersView.vue') },
     ]
   },
+  {
+    path: '/members/view/:uuid/:runningUuid',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '/members/view/:uuid/:runningUuid', name: 'membersRunningInfo', meta: { title: '會員管理 | 跑步紀錄' },component: () => import('src/pages/members/membersRunningInfo.vue') },
+    ]
+  },
   // Always leave this as last one,
   // but you can also remove it
   {
