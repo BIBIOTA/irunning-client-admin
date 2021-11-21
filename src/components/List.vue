@@ -106,8 +106,8 @@ export default defineComponent({
 
   data () {
     return {
-      columns: reactive(this.initialColumns),
-      rows: reactive(this.initialRows),
+      columns: reactive(this.initialColumns ?? []),
+      rows: reactive(this.initialRows ?? []),
       confirm: ref(false),
     }
   },
