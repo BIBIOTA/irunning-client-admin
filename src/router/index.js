@@ -30,6 +30,8 @@ export default route(function (/* { store, ssrContext } */) {
   Router.beforeEach((to) => {
     if (to.fullPath !== '/' && !Cookies.get('token')) {
       return { name: 'login' };
+    } else if (to.fullPath === '/' && Cookies.get('token')) {
+      return { name: 'home' };
     }
   });
 

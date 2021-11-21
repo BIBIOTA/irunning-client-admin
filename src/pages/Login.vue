@@ -17,7 +17,7 @@ import { defineComponent, ref } from 'vue';
 import { auth } from '../libs/auth.js';
 import { checkMail } from 'src/const/validator.js';
 import { notify } from 'src/const/notify.js';
-import { mapState, mapMutations } from 'vuex';
+import { mapMutations } from 'vuex';
 
 export default defineComponent({
   name: 'Login',
@@ -39,7 +39,7 @@ export default defineComponent({
           const form = {
             email: this.email,
             password: this.password,
-          }          
+          }
           auth.login(form).then((res) => {
             if (res.status) {
               const { access_token, expires_in } = res;
@@ -58,17 +58,6 @@ export default defineComponent({
       })
     },
   },
-  computed: {
-    ...mapState([
-      'token',
-    ]),
-  },
-  created() {
-    if (this.token) {
-      this.$router.push({
-        name: 'home',
-      });
-    }
-  },
+  created() {},
 })
 </script>
