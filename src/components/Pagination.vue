@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-lg flex flex-center">
+  <div class="q-pa-lg flex flex-center" v-if="pagination">
     <q-pagination
       v-model="pagination.current"
       color="black"
@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-import { defineComponent, ref } from 'vue';
+import { defineComponent, reactive } from 'vue';
 
 export default defineComponent({
   name: 'Pagination',
@@ -19,13 +19,29 @@ export default defineComponent({
     initialPagination: Object,
   },
 
-  data() {
+  data () {
     return {
-      pagination: this.initialPagination,
+      pagination: reactive(this.initialPagination),
     }
   },
 
   methods: {},
+
+  watch: {
+    initialPagination(payload) {
+      this.pagination = payload;
+    },
+    computedPagination() {
+      this.$emit('changePage');
+    }
+  },
+
+  computed: {
+    computedPagination() {
+      return this.pagination.current;
+    },
+  },
+
   created() {}
 })
 </script>
