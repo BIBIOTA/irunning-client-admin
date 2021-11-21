@@ -1,18 +1,25 @@
 <template>
   <q-page>
     <Title />
-    <Search v-model:initialSearchForm="searchForm" />
-    <List :initialColumns="columns" v-model:initialRows="rows" />
-    <Pagination v-model:initialPagination="pagination" />
+    <Search
+      :initialSearchForm="searchForm"
+      @search="search"
+    />
+    <List :initialGetApi="getApi" :initialColumns="columns" :initialRows="rows" />
+    <Pagination :initialPagination="pagination" @changePage="search" />
   </q-page>
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
+import _ from 'lodash';
+import { defineComponent, reactive, ref } from 'vue';
 import Title from 'src/components/Title.vue';
 import List from 'src/components/List.vue';
 import Search from 'src/components/Search.vue';
 import Pagination from 'src/components/Pagination.vue';
+import { sqlDateToFrontend } from 'src/const/dateTool.js';
+import { notify } from 'src/const/notify.js';
+import { members } from 'src/libs/members.js';
 
 export default defineComponent({
   name: 'Members',
@@ -25,10 +32,12 @@ export default defineComponent({
   },
 
   setup () {
+  
     return {
-      searchForm: ref([
+      searchForm: reactive([
         {
-          name: 'name',
+          name: 'username',
+          label: '搜尋會員(會員名稱)',
           value: '',
           type: 'input',
         },
@@ -37,7 +46,7 @@ export default defineComponent({
           type: 'btn',
         }
       ]),
-      columns: [
+      columns: reactive([
         {
           name: 'name',
           label: '會員名稱',
@@ -64,42 +73,84 @@ export default defineComponent({
         },
         {
           name: 'edit',
-          label: '編輯',
-        },
-      ],
-      rows: ref([
-        {
-          name: '測試人',
-          loginFrom: 'Strava',
-          totalDistance: '1023公里',
-          monthDistance: '20公里',
-          runnerType: '初階跑者',
-          lastLoginAt: '2021-11-01 21:22:22',
-          edit: {
-            view: true,
-            uuid: '1',
-          },
-        },
-        {
-          name: '測試人2',
-          loginFrom: 'Strava',
-          totalDistance: '1024公里',
-          monthDistance: '22公里',
-          runnerType: '初階跑者',
-          lastLoginAt: '2021-11-01 21:22:22',
-          edit: {
-            view: true,
-            uuid: '2',
-          },
+          label: '檢視',
         },
       ]),
-      pagination: {
-        current: 2,
-        max: 20,
-      },
+      rows: reactive([]),
+      pagination: reactive({
+        current: 1,
+        max: 1,
+      }),
+      getApi: ref(false),
     }
   },
-  methods: {},
-  created() {}
+  methods: {
+    getQueryToData() {
+      const { page, ...query } = this.$route.query;
+      if (page) {
+        this.pagination.current = parseInt(page);
+      }
+      Object.keys(query).forEach((key) => {
+        this.searchForm.forEach((item) => {
+          if (item.name === key) {
+            item.value = query[key];
+          }
+        });
+      });
+    },
+    search(page = this.pagination.current) {
+      const formData = {};
+      _.set(formData, 'page', page);
+      Object.keys(this.searchForm).forEach((key) => {
+        if (this.searchForm[key].value) {
+          _.set(formData, this.searchForm[key].name, this.searchForm[key].value);
+        }
+      });
+      this.$router.push({
+        query: formData,
+      });
+      this.getData(formData);
+    },
+    getData(formData = null) {
+      this.getApi = false;
+      this.rows = [];
+      members.index(formData).then((res) => {
+        if (res.status) {
+          this.pagination = {
+            current: res.data?.current_page,
+            max: res.data?.last_page,
+          }
+          if (res.data?.data?.length > 0) {
+            const data = res.data.data.map((row) => {
+              return {
+                username: row.username,
+                loginFrom: row.loginFrom,
+                totalDistance: row.totalDistance,
+                monthDistance: row.monthDistance,
+                runnerType: row.runnerType,
+                lastLoginAt: sqlDateToFrontend(row.lastLoginAt),
+                edit: {
+                  view: true,
+                  uuid: row.id,
+                },
+              };
+            });
+            this.rows = data;
+            this.getApi = true;
+          }
+        } else {
+          notify(res.message, false);
+          this.getApi = true;
+        }
+      });
+    },
+  },
+  created() {
+    this.getQueryToData();
+  },
+  mounted () {
+    const searchForm = this.$route.query;
+    this.getData(searchForm);
+  },
 })
 </script>
