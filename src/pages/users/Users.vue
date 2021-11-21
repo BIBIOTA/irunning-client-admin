@@ -1,7 +1,10 @@
 <template>
   <q-page>
     <Title />
-    <List :initialColumns="columns" v-model:initialRows="rows" />
+    <List
+      :initialGetApi="getApi"
+      :initialColumns="columns"
+      :initialRows="rows" />
   </q-page>
 </template>
 
@@ -54,6 +57,7 @@ export default defineComponent({
           },
         },
       ]),
+      getApi: ref(true),
     }
   },
   methods: {},

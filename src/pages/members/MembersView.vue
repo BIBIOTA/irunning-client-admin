@@ -1,11 +1,14 @@
 <template>
   <q-page>
     <Title />
-    <List v-model:initialRows="rows" />
+    <List
+      :initialGetApi="getApi"
+      :initialRows="rows" />
     <CustomTitle :title="'跑步紀錄'" />
     <List
+      :initialGetApi="getApi"
       :initialColumns="runningRecordsColumns"
-      v-model:initialRows="runningRecordsRows"
+      :initialRows="runningRecordsRows"
       @customAction="customAction"
     />
     <Btns />
@@ -86,6 +89,7 @@ export default defineComponent({
           },
         },
       ]),
+      getApi: ref(true),
     }
   },
   methods: {

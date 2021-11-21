@@ -2,7 +2,9 @@
   <q-page>
     <q-card style="min-width: 80%">
       <CustomTitle :title="'午後跑步'" />
-      <List v-model:initialRows="runningInfo" />
+      <List
+        :initialGetApi="getApi"
+        :initialRows="runningInfo" />
       <q-card-section class="row item-center">
         <GoogleMap
           v-if="flightPath?.path?.length > 0"
@@ -94,6 +96,7 @@ export default defineComponent({
         strokeOpacity: 1.0,
         strokeWeight: 2,
       },
+      getApi: ref(true),
     }
   },
   methods: {},
