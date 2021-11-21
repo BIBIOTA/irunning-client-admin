@@ -2,12 +2,7 @@ import axios from 'axios';
 import qs from 'qs';
 import { Cookies } from 'quasar';
 
-let API_URL;
-if (process.env.DEV) {
-  API_URL = 'http://irunning.test/api';
-} else {
-  API_URL = 'https://irunningapi.bibiota.com/api';
-}
+const API_URL = process.env.API_URL;
 
 let AUTH_TOKEN = Cookies.get('token') ?? null;
 

@@ -8,7 +8,7 @@
       <q-card-section class="row item-center">
         <GoogleMap
           v-if="flightPath?.path?.length > 0"
-          api-key="AIzaSyD_6zCWNrsF0BKAAhv0-bhcwYYw6TM5ZNQ"
+          :api-key="GAPI_KEY"
           :center="{ lat: 37.772, lng: -122.214 }"
           :zoom="3"
           style="width: 100%; height: 300px"
@@ -25,8 +25,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from 'vue';
-import Title from 'src/components/Title.vue';
+import { defineComponent, ref, reactive } from 'vue';
 import List from 'src/components/List.vue';
 import CustomTitle from 'src/components/CustomTitle.vue';
 import { GoogleMap, Polyline } from 'vue3-google-map';
@@ -44,6 +43,8 @@ export default defineComponent({
   },
 
   setup () {
+    const GAPI_KEY = process.env.GAPI_KEY;
+
     const flightPlanCoordinates = [
       { lat: 37.772, lng: -122.214 },
       { lat: 21.291, lng: -157.821 },
@@ -51,7 +52,7 @@ export default defineComponent({
       { lat: -27.467, lng: 153.027 },
     ];
     return {
-      runningInfo: ref([
+      runningInfo: reactive([
         {
           title: '日期',
           date: '2021年 12-21 12:12:12',
@@ -89,14 +90,15 @@ export default defineComponent({
           device_name: 'Garmin',
         },
       ]),
-      flightPath: {
+      flightPath: reactive({
         path: flightPlanCoordinates,
         geodesic: true,
         strokeColor: '#FF0000',
         strokeOpacity: 1.0,
         strokeWeight: 2,
-      },
+      }),
       getApi: ref(true),
+      GAPI_KEY,
     }
   },
   methods: {},
