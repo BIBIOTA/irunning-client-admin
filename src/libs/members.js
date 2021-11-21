@@ -25,4 +25,23 @@ export const members = {
         };
       });
   },
+
+  /**
+   * view
+   */
+   view(data) {
+    const url = '/view';
+    return request(this.fullUrl(url), data)
+      .then((res) => {
+        if (res.status) {
+          return res.data;
+        }
+        return res.data;
+      }).catch((err) => {
+        return {
+          message: err,
+          status: false,
+        };
+      });
+  },
 };
