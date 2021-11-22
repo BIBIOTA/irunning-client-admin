@@ -23,7 +23,7 @@ import CustomTitle from 'src/components/CustomTitle.vue';
 import Btns from 'src/components/Btns.vue';
 import { notify } from 'src/const/notify.js';
 import { members } from 'src/libs/members.js';
-import { timeFormat } from 'src/const/dateTool.js';
+import { sqlDateToFrontend, timeFormat } from 'src/const/dateTool.js';
 
 export default defineComponent({
   name: 'MembersView',
@@ -40,27 +40,27 @@ export default defineComponent({
       rows: ref([
         {
           title: '名稱',
-          name: '測試人',
+          name: '',
         },
         {
           title: '登入來源',
-          loginFrom: 'Strava',
+          loginFrom: '',
         },
         {
           title: '累積里程',
-          totalDistance: '1024公里',
+          totalDistance: '',
         },
         {
           title: '本月里程',
-          monthDistance: '22公里',
+          monthDistance: '',
         },
         {
           title: '跑者類型',
-          runnerType: '初階跑者',
+          runnerType: '',
         },
         {
           title: '前次登入時間',
-          lastLoginAt: '2021-11-01 21:22:22',
+          lastLoginAt: '',
         },
       ]),
       runningRecordsColumns: [
@@ -83,12 +83,12 @@ export default defineComponent({
       ],
       runningRecordsRows:  ref([
         {
-          date: '2021 11-21 12:12:12',
-          distance: '20公里',
-          movingTime: '1小時20分',
+          date: '',
+          distance: '',
+          movingTime: '',
           customBtns: {
             view: true,
-            uuid: '121',
+            uuid: '',
           },
         },
       ]),
@@ -120,7 +120,11 @@ export default defineComponent({
             Object.keys(res.data.member).forEach((key) => {
               this.rows.forEach((item) => {
                 if (key in item) {
-                  item[key] = res.data.member[key];
+                  if (key === 'lastLoginAt') {
+                    item[key] = sqlDateToFrontend(res.data.member[key]); 
+                  } else {
+                    item[key] = res.data.member[key]; 
+                  }
                 }
               });
             });
