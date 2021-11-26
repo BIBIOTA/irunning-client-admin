@@ -104,9 +104,9 @@ export default defineComponent({
     }
   },
   methods: {
-    getData(user_id, id) {
+    getData(memberUuid, runningUuId) {
       this.getApi = false;
-      members.runningInfo({user_id, id}).then((res) => {
+      members.runningInfo(memberUuid, runningUuId).then((res) => {
         if (res.status) {
           Object.keys(res.data).forEach((key) => {
             this.runningInfo.forEach((item) => {
@@ -166,9 +166,9 @@ export default defineComponent({
     },
   },
   created() {
-    const { uuid, runningUuid } = this.$route.params;
-    if (uuid && runningUuid) {
-      this.getData(uuid, runningUuid);
+    const { memberUuid, runningUuid } = this.$route.params;
+    if (memberUuid && runningUuid) {
+      this.getData(memberUuid, runningUuid);
     } else {
       notify('錯誤:缺少會員或跑步資訊', false);
     }

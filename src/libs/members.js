@@ -11,8 +11,7 @@ export const members = {
    * index
    */
   index(data) {
-    const url = '/';
-    return request(this.fullUrl(url), data)
+    return request(this.baseUrl, data)
       .then((res) => {
         if (res.status) {
           return res.data;
@@ -29,9 +28,9 @@ export const members = {
   /**
    * view
    */
-   view(data) {
-    const url = '/view';
-    return request(this.fullUrl(url), data)
+   view(memberUuid) {
+    const url = `/${memberUuid}`;
+    return request(this.fullUrl(url))
       .then((res) => {
         if (res.status) {
           return res.data;
@@ -48,9 +47,9 @@ export const members = {
   /**
    * runningInfo
    */
-   runningInfo(data) {
-    const url = '/runningInfo';
-    return request(this.fullUrl(url), data)
+   runningInfo(memberUuid, runningUuid) {
+    const url = `/${memberUuid}/${runningUuid}`;
+    return request(this.fullUrl(url))
       .then((res) => {
         if (res.status) {
           return res.data;

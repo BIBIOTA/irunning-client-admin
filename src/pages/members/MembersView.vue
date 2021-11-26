@@ -112,9 +112,9 @@ export default defineComponent({
         },
       });
     },
-    getData(id) {
+    getData(memberUuid) {
       this.getApi = false;
-      members.view({id}).then((res) => {
+      members.view(memberUuid).then((res) => {
         if (res.status) {
           if (res.data?.member) {
             Object.keys(res.data.member).forEach((key) => {
@@ -152,7 +152,7 @@ export default defineComponent({
     },
   },
   mounted () {
-    this.getData(this.$route.params.uuid);
+    this.getData(this.$route.params.memberUuid);
   },
 })
 </script>
