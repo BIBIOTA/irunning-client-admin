@@ -22,6 +22,20 @@ const routes = [
     ]
   },
   {
+    path: '/news',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '/news', name: 'news', meta: { title: '最新消息管理' },component: () => import('src/pages/news/News.vue') },
+    ]
+  },
+  {
+    path: '/news/create',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '/news/create', name: 'newsCreate', meta: { title: '最新消息新增' },component: () => import('src/pages/news/NewsCreate.vue') },
+    ]
+  },
+  {
     path: '/members',
     component: () => import('layouts/MainLayout.vue'),
     children: [

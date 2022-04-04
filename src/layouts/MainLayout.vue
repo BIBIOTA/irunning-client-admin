@@ -64,22 +64,27 @@ const linksList = [
   {
     title: '權限管理',
     icon: 'account_circle',
-    link: '/users'
+    link: '/users',
+  },
+  {
+    title: '最新消息管理',
+    icon: 'newspaper',
+    link: '/news',
   },
   {
     title: '會員管理',
     icon: 'face',
-    link: '/members'
+    link: '/members',
   },
   {
     title: '跑點管理',
     icon: 'directions_run',
-    link: '/spots'
+    link: '/spots',
   },
   {
     title: 'SEO管理',
     icon: 'public',
-    link: '/seo'
+    link: '/seo',
   },
 ];
 

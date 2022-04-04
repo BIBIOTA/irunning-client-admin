@@ -23,6 +23,7 @@ module.exports = configure(function (ctx) {
     // https://quasar.dev/quasar-cli/boot-files
     boot: [
       'axios',
+      'apollo'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -102,6 +103,7 @@ module.exports = configure(function (ctx) {
       plugins: [
         'Notify',
         'Cookies',
+        'Loading',
       ]
     },
 

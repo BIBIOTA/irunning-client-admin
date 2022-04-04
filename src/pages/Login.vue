@@ -36,6 +36,9 @@ export default defineComponent({
     login() {
       this.$refs.loginForm.validate().then(success => {
         if (success) {
+          this.$q.loading.show({
+            message: '登入中...',
+          });
           const form = {
             email: this.email,
             password: this.password,
@@ -44,8 +47,7 @@ export default defineComponent({
             if (res.status) {
               const { access_token, expires_in } = res;
               this.setToken({ access_token, expires_in });
-              notify('登入成功', true);
-              this.$router.push({
+              this.$router.go({
                 name: 'home',
               });
             } else {
@@ -54,6 +56,7 @@ export default defineComponent({
           }).catch((err) => {
             notify('發生例外錯誤，登入失敗', false);
           });
+          this.$q.loading.hide();
         }
       })
     },
