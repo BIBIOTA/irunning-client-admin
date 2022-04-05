@@ -6,6 +6,7 @@
       :max="pagination.max"
       :max-pages="6"
       boundary-numbers
+      @click="changePage"
     />
   </div>
 </template>
@@ -25,20 +26,15 @@ export default defineComponent({
     }
   },
 
-  methods: {},
+  methods: {
+    changePage() {
+      this.$emit('changePage', this.pagination.current);
+    },
+  },
 
   watch: {
     initialPagination(payload) {
       this.pagination = payload;
-    },
-    computedPagination() {
-      this.$emit('changePage');
-    }
-  },
-
-  computed: {
-    computedPagination() {
-      return this.pagination.current;
     },
   },
 

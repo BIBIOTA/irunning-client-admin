@@ -16,6 +16,7 @@
               <q-toggle
                 v-model="row.isActive"
                 color="primary"
+                @click="$emit('update', row)"
               />
             </q-item-label>
 
@@ -38,7 +39,7 @@
               <div class="text-grey-8 q-gutter-xs">
                 <q-btn
                   v-if="row.edit.remove"
-                  @click="confirm = true"
+                  @click="confirm = true; selectedId = row.id"
                   class="gt-xs"
                   size="12px"
                   flat
@@ -85,8 +86,8 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="取消" color="primary" v-close-popup />
-          <q-btn flat label="確定" color="red" v-close-popup />
+          <q-btn @click="selectedId = null" flat label="取消" color="primary" v-close-popup />
+          <q-btn @click="onDelete" flat label="確定" color="red" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -109,6 +110,7 @@ export default defineComponent({
       columns: reactive(this.initialColumns ?? []),
       rows: reactive(this.initialRows ?? []),
       confirm: ref(false),
+      selectedId: ref(null),
     }
   },
 
@@ -121,7 +123,12 @@ export default defineComponent({
     }
   },
 
-  methods: {},
+  methods: {
+    onDelete() {
+      this.$emit('delete', this.selectedId);
+      this.selectedId = null;
+    },
+  },
   created() {}
 })
 </script>

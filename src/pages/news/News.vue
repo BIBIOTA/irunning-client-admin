@@ -11,21 +11,79 @@
       />
     </div>
     <List
-      :initialGetApi="getApi"
+      @update="onUpdate"
+      @delete="onDelete"
+      :initialGetApi="computedGetApi"
       :initialColumns="columns"
-      :initialRows="rows" />
+      :initialRows="computedRow" />
     <Pagination
-      :initialPagination="pagination"
-      @changePage="getData({ page: 1 })"
+      :initialPagination="{
+        current: variables.page,
+        max: result?.newsAll?.paginatorInfo?.lastPage ?? pageMax,
+      }"
+      @changePage="getData"
     />
   </q-page>
 </template>
 
 <script>
 import { defineComponent, ref, reactive } from 'vue';
+import { useQuery, useMutation } from "@vue/apollo-composable";
+import gql from 'graphql-tag';
 import Title from 'src/components/Title.vue';
 import List from 'src/components/List.vue';
 import Pagination from 'src/components/Pagination.vue';
+
+
+const newsAllGql = gql`query newsAll (
+    $page: Int
+  ) {
+    newsAll(page: $page) {
+      paginatorInfo {
+        total
+        perPage
+        currentPage
+        lastPage
+      }
+      data {
+        id
+        title
+        content
+        isActive
+        created_at
+        updated_at
+      }
+    }
+  }`;
+
+const updateNewsGql = gql`mutation updateNews(
+  $id: ID!
+  $title: String!
+  $isActive: Boolean!
+) {
+  updateNews(
+    id: $id
+    title: $title
+    isActive: $isActive
+  ) {
+    id
+    title
+    content
+    isActive
+    created_at
+    updated_at
+  }
+}`;
+
+const deleteNewsGql = gql`mutation deleteNews(
+  $id: ID!
+) {
+  deleteNews(
+    id: $id
+  ) {
+    id
+  }
+}`;
 
 export default defineComponent({
   name: 'News',
@@ -37,7 +95,26 @@ export default defineComponent({
   },
 
   setup () {
+
+    const variables = ref({
+      page: 1,
+    });
+
+    const pageMax = 1;
+
+    const { result, refetch } = useQuery(newsAllGql, variables);
+
+    const { mutate: updateNews } = useMutation(updateNewsGql);
+
+    const { mutate: deleteNews } = useMutation(deleteNewsGql);
+
     return {
+      updateNews,
+      deleteNews,
+      variables,
+      pageMax,
+      refetch,
+      result,
       columns: [
         {
           name: 'title',
@@ -56,70 +133,61 @@ export default defineComponent({
           label: '編輯',
         },
       ],
-      rows: ref([
-        {
-          name: '貓咪大戰爭!',
-          content: '測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容測試內容',
-          isActive: true,
-          edit: {
-            remove: true,
-            edit: true,
-            uuid: '1',
-          },
-        },
-        {
-          name: '咒術迴戰',
-          content: '領域展開領域展開領域展開領域展開領域展開領域展開領域展開領域展開領域展開領域展開領域展開領域展開領域展開領域展開領域展開領域展開領域展開領域展開領域展開領域展開領域展開領域展開領域展開',
-          isActive: true,
-          edit: {
-            remove: true,
-            edit: true,
-            uuid: '1',
-          },
-        },
-      ]),
-      getApi: ref(true),
-      pagination: reactive({
-        current: 1,
-        max: 1,
-      }),
     }
   },
   methods: {
-    getData(formData = null) {
-      this.getApi = false;
-      this.rows = [];
-      members.index(formData).then((res) => {
-        if (res.status) {
-          this.pagination = {
-            current: res.data?.current_page,
-            max: res.data?.last_page,
-          }
-          if (res.data?.data?.length > 0) {
-            const data = res.data.data.map((row) => {
-              return {
-                username: row.username,
-                loginFrom: row.loginFrom,
-                totalDistance: row.totalDistance,
-                monthDistance: row.monthDistance,
-                runnerType: row.runnerType,
-                lastLoginAt: sqlDateToFrontend(row.lastLoginAt),
-                edit: {
-                  view: true,
-                  uuid: row.id,
-                },
-              };
-            });
-            this.rows = data;
-            this.getApi = true;
-          }
-        } else {
-          notify(res.message, false);
-          this.getApi = true;
-        }
+    getData(page) {
+      this.pageMax = this.result.newsAll.paginatorInfo.lastPage;
+      this.variables.page = page;
+      this.refetch();
+    },
+    onUpdate(item) {
+      this.updateNews({
+        id: item.id,
+        title: item.title,
+        isActive: item.isActive,
+      }).then((res) => {
+        this.refetch();
+      }).catch((err) => {
+        this.refetch();
+        console.log(err);
+      });
+    },
+    onDelete(id) {
+      this.deleteNews({ id }).then((res) => {
+        this.refetch();
+      }).catch((err) => {
+        console.log(err);
       });
     },
   },
-  created() {}
-})
+  computed: {
+    computedGetApi() {
+      if (this.result?.newsAll?.data?.length > 0) {
+        return true;
+      }
+      return false;
+    },
+    computedRow()
+    {
+      if (this.result?.newsAll?.data?.length > 0) {
+        const data = this.result.newsAll.data.map((row) => {
+          return {
+            id: row.id,
+            title: row.title,
+            content: row.content,
+            isActive: row.isActive,
+            edit: {
+              remove: true,
+              edit: true,
+              uuid: row.id,
+            },
+          };
+        });
+        return data;
+      }
+      return [];
+    }
+  }
+});
 </script>

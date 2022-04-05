@@ -36,6 +36,13 @@ const routes = [
     ]
   },
   {
+    path: '/news/edit/:id',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '/news/edit/:id', name: 'newsEdit', meta: { title: '最新消息編輯' },component: () => import('src/pages/news/NewsEdit.vue') },
+    ]
+  },
+  {
     path: '/members',
     component: () => import('layouts/MainLayout.vue'),
     children: [
