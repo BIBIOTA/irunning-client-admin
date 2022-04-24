@@ -27,12 +27,19 @@ export function request(url, data = false, method = 'get', token = AUTH_TOKEN, h
   if (['get'].includes(method) && data !== false) {
     req.params = data;
   }
-  if (['put', 'post'].includes(method) && data !== false) {
+  if (['put', 'post'].includes(method) && data !== false && data !== null) {
     headers = {
       ...headers,
       'Content-Type': 'application/x-www-form-urlencoded',
     };
-    req = { ...req, data: qs.stringify(data), headers };
+
+    const formData = new FormData();
+
+    Object.keys(data).forEach((key) => {
+      formData.append(key, data[key]);
+    });
+
+    req = { ...req, data: formData, headers };
   }
 
   return axios(req)
