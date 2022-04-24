@@ -131,7 +131,7 @@ export default defineComponent({
                 lastLoginAt: sqlDateToFrontend(row.lastLoginAt),
                 edit: {
                   view: true,
-                  uuid: row.id,
+                  id: row.id,
                 },
               };
             });

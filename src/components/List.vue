@@ -10,7 +10,7 @@
       </q-item>
       <template v-if="initialGetApi && rows.length > 0">
         <q-item v-for="(row, i) in rows" :key="`row_${i}`">
-          <q-item-section center v-for="(column, key) in row" :key="key">
+          <q-item-section center v-for="(column, key) in row" :key="key" v-show="key !== 'id'">
 
             <q-item-label v-if="key === 'isActive'">
               <q-toggle
@@ -55,7 +55,7 @@
                   dense
                   round
                   icon="edit"
-                  :to="`${$route.path}/edit/${row.edit.uuid}`"
+                  :to="`${$route.path}/edit/${row.edit.id}`"
                 />
                 <q-btn
                   v-if="row.edit.view"
@@ -65,9 +65,17 @@
                   dense
                   round
                   icon="visibility"
-                  :to="`${$route.path}/view/${row.edit.uuid}`"
+                  :to="`${$route.path}/view/${row.edit.id}`"
                 />
               </div>
+            </q-item-label>
+
+            <q-item-label v-else-if="key === 'image'">
+              <img style="max-width: 200px" :src="column" />
+            </q-item-label>
+
+            <q-item-label v-else-if="key === 'contentHtml'">
+              <span class="text-weight-medium" v-html="column" />
             </q-item-label>
 
             <q-item-label v-else>

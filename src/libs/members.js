@@ -28,8 +28,8 @@ export const members = {
   /**
    * view
    */
-   view(memberUuid) {
-    const url = `/${memberUuid}`;
+   view(memberId) {
+    const url = `/${memberId}`;
     return request(this.fullUrl(url))
       .then((res) => {
         if (res.status) {
@@ -47,8 +47,8 @@ export const members = {
   /**
    * runningInfo
    */
-   runningInfo(memberUuid, runningUuid) {
-    const url = `/${memberUuid}/${runningUuid}`;
+   runningInfo(memberId, runningId) {
+    const url = `/${memberId}/${runningId}`;
     return request(this.fullUrl(url))
       .then((res) => {
         if (res.status) {

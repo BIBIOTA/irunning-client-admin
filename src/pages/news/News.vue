@@ -175,12 +175,12 @@ export default defineComponent({
           return {
             id: row.id,
             title: row.title,
-            content: row.content,
+            contentHtml: row.content,
             isActive: row.isActive,
             edit: {
               remove: true,
               edit: true,
-              uuid: row.id,
+              id: row.id,
             },
           };
         });

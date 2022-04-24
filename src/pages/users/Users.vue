@@ -44,7 +44,7 @@ export default defineComponent({
           edit: {
             remove: true,
             edit: true,
-            uuid: '1',
+            id: '1',
           },
         },
         {
@@ -53,7 +53,7 @@ export default defineComponent({
           edit: {
             remove: true,
             edit: true,
-            uuid: '1',
+            id: '1',
           },
         },
       ]),

@@ -88,7 +88,7 @@ export default defineComponent({
           movingTime: '',
           customBtns: {
             view: true,
-            uuid: '',
+            id: '',
           },
         },
       ]),
@@ -107,14 +107,14 @@ export default defineComponent({
       this.$router.push({
         name: 'membersRunningInfo',
         params: {
-          uuid: this.$route.params.uuid,
-          runningUuid: payload.uuid,
+          id: this.$route.params.id,
+          runningId: payload.id,
         },
       });
     },
-    getData(memberUuid) {
+    getData(memberId) {
       this.getApi = false;
-      members.view(memberUuid).then((res) => {
+      members.view(memberId).then((res) => {
         if (res.status) {
           if (res.data?.member) {
             Object.keys(res.data.member).forEach((key) => {
@@ -137,7 +137,7 @@ export default defineComponent({
                 movingTime: timeFormat(item.movingTime),
                 customBtns: {
                   view: true,
-                  uuid: item.id,
+                  id: item.id,
                 },
               };
             });
@@ -152,7 +152,7 @@ export default defineComponent({
     },
   },
   mounted () {
-    this.getData(this.$route.params.memberUuid);
+    this.getData(this.$route.params.memberId);
   },
 })
 </script>

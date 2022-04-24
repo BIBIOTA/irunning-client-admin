@@ -67,6 +67,11 @@ const linksList = [
     link: '/users',
   },
   {
+    title: '輪播圖管理',
+    icon: 'image',
+    link: '/banner',
+  },
+  {
     title: '最新消息管理',
     icon: 'newspaper',
     link: '/news',

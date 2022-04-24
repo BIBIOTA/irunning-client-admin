@@ -22,6 +22,20 @@ const routes = [
     ]
   },
   {
+    path: '/banner',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '/banner', name: 'banner', meta: { title: '輪播圖管理' },component: () => import('src/pages/banner/Banner.vue') },
+    ]
+  },
+  {
+    path: '/banner',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      { path: '/banner/create', name: 'bannerCreate', meta: { title: '輪播圖新增' },component: () => import('src/pages/banner/bannerCreate.vue') },
+    ]
+  },
+  {
     path: '/news',
     component: () => import('layouts/MainLayout.vue'),
     children: [
@@ -50,17 +64,17 @@ const routes = [
     ]
   },
   {
-    path: '/members/view/:memberUuid',
+    path: '/members/view/:memberId',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '/members/view/:memberUuid', name: 'membersView', meta: { title: '會員管理 | 檢視' },component: () => import('src/pages/members/MembersView.vue') },
+      { path: '/members/view/:memberId', name: 'membersView', meta: { title: '會員管理 | 檢視' },component: () => import('src/pages/members/MembersView.vue') },
     ]
   },
   {
-    path: '/members/view/:memberUuid/:runningUuid',
+    path: '/members/view/:memberId/:runningId',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '/members/view/:memberUuid/:runningUuid', name: 'membersRunningInfo', meta: { title: '會員管理 | 跑步紀錄' },component: () => import('src/pages/members/membersRunningInfo.vue') },
+      { path: '/members/view/:memberId/:runningId', name: 'membersRunningInfo', meta: { title: '會員管理 | 跑步紀錄' },component: () => import('src/pages/members/membersRunningInfo.vue') },
     ]
   },
   // Always leave this as last one,
