@@ -1,7 +1,7 @@
 ### 🏃🏻 [Irunning: Running information web site & Telegram bot (2021/8~)](https://irunning.bibiota.com/)
 
 ![vue](https://img.shields.io/badge/vue-%5E2.6.11-blue)
-![Quasar](https://img.shields.io/badge/Quasar%5E2.3.3-blue)
+![Quasar](https://img.shields.io/badge/Quasar-%5E2.3.3-blue)
 
 #### About this side-project:
 
